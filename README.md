@@ -1,4 +1,4 @@
-# 🤖 ChatBot for Medha Tech — Bubby
+# 🤖 ChatBot for Medha Tech 
 
 **Bubby** is a lightweight Flask-based chatbot powered by Google’s Gemini 2.0 Flash API. It is designed to assist users by answering questions based strictly on your provided context file (`data.txt`). This makes it ideal for FAQ bots on product or service websites.
 
@@ -37,7 +37,7 @@
 
 ```bash
 # Clone the repo
-git clone https://github.com/<your-username>/medha-chatbot.git
+git clone https://github.com/MedhaTech/Medha-Chatbot
 cd medha-chatbot
 
 # Install dependencies
