@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mira - Medha Tech Assistant</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <style>
+        html {
+            background: #F72534;
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            background: transparent;
+        }
+
+        body {
+            background: transparent;
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Floating chat button */
+        .chat-fab {
+            position: fixed;
+            bottom: 32px;
+            right: 32px;
+            width: 64px;
+            height: 64px;
+            background: #F72534;
+            border-radius: 50%;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.18);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 1001;
+            transition: background 0.2s;
+        }
+
+        .chat-fab:hover {
+            background: #ff4a5a;
+        }
+
+        .chat-fab img {
+            width: 36px;
+            height: 36px;
+        }
+
+        .chat-widget {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            width: 100%;
+            height: 100%;
+            background: #fff;
+            border-radius: 18px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.18);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            z-index: 1002;
+            margin: 0;
+            padding: 0;
+        }
+
+
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .chat-header {
+            background: #F72534;
+            color: #fff;
+            padding: 18px 18px 14px 18px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            position: relative;
+        }
+
+        .chat-header img {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: #fff;
+            object-fit: cover;
+        }
+
+        .chat-header .chat-actions {
+            margin-left: auto;
+            display: flex;
+            gap: 8px;
+        }
+
+        .chat-header button {
+            background: transparent;
+            border: none;
+            color: #fff;
+            font-size: 1.2rem;
+            cursor: pointer;
+            padding: 4px 8px;
+            border-radius: 6px;
+            transition: background 0.15s;
+        }
+
+        .chat-header button:hover {
+            background: rgba(255, 255, 255, 0.13);
+        }
+
+        .chat-messages {
+            flex: 1;
+            padding: 24px 8px;
+            overflow-y: auto;
+            background: #fff0f1;
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+
+        .message {
+            display: flex;
+            align-items: flex-end;
+            width: 100%;
+        }
+
+        .message.user {
+            justify-content: flex-end;
+        }
+
+        .message.bot {
+            justify-content: flex-start;
+        }
+
+        .message.user .bubble {
+            background: linear-gradient(135deg, #F72534 60%, #ff4a5a 100%);
+            color: #fff;
+            border-radius: 18px 4px 18px 18px;
+            margin-left: 80px;
+            margin-right: 0;
+            text-align: right;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            align-self: flex-end;
+            border: 1px solid #F72534;
+            max-width: 80%;
+        }
+
+        .message.bot .bubble {
+            background: #ffe3e6;
+            color: #222;
+            border-radius: 4px 18px 18px 18px;
+            margin-right: 80px;
+            margin-left: 0;
+            text-align: left;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+            align-self: flex-start;
+            border: 1px solid #fbb3b9;
+            max-width: 80%;
+        }
+
+        .bubble {
+            padding: 12px 18px;
+            font-size: 1rem;
+            word-break: break-word;
+            position: relative;
+            display: inline-block;
+        }
+
+        .avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: #fff;
+            object-fit: cover;
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.07);
+            margin-right: 10px;
+        }
+
+        .message.user .avatar {
+            display: none;
+        }
+
+        .message.bot .avatar {
+            display: block;
+        }
+
+        .chat-input {
+            display: flex;
+            padding: 18px 18px;
+            background: #fff4f5;
+            border-top: 1px solid #ffd3d6;
+        }
+
+        .chat-input input {
+            flex: 1;
+            padding: 12px 16px;
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            background: #fff;
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.03);
+            outline: none;
+        }
+
+        .chat-input button {
+            margin-left: 12px;
+            padding: 12px 22px;
+            background: #F72534;
+            color: #fff;
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .chat-input button:active {
+            background: #c81b28;
+        }
+
+        @media (max-width: 600px) {
+            .chat-widget {
+                width: 98vw;
+                height: 98vh;
+                right: 1vw;
+                bottom: 1vw;
+                border-radius: 10px;
+            }
+
+            .chat-header {
+                font-size: 1.1rem;
+                padding: 14px 10px;
+            }
+
+            .chat-messages {
+                padding: 12px 2px;
+            }
+
+            .message.user .bubble {
+                margin-left: 30px;
+                max-width: 90%;
+            }
+
+            .message.bot .bubble {
+                margin-right: 30px;
+                max-width: 90%;
+            }
+
+            .chat-input {
+                padding: 12px;
+            }
+        }
+
+        /* Markdown styling for bot replies */
+        .bubble :is(h1, h2, h3, h4, h5, h6) {
+            margin: 0.5em 0 0.2em 0;
+            font-weight: 700;
+        }
+
+        .bubble ul,
+        .bubble ol {
+            margin: 0.5em 0 0.5em 1.2em;
+        }
+
+        .bubble pre {
+            background: #ffe3e6;
+            padding: 8px 12px;
+            border-radius: 8px;
+            overflow-x: auto;
+        }
+
+        .bubble code {
+            background: #ffe3e6;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.95em;
+        }
+
+        .bubble a {
+            color: #F72534;
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Floating Chat Button -->
+    <!-- Chat Widget Popup -->
+    <div class="chat-widget" id="chat-widget" style="display:flex;">
+        <div class="chat-header">
+            <img src="https://cdn-icons-png.flaticon.com/512/4712/4712035.png" alt="Mira bot icon">
+            Mira
+            <div class="chat-actions">
+                <button id="reload-chat" title="Reload chat">&#x21bb;</button>
+                <button id="close-chat" title="Close">&#x2715;</button>
+            </div>
+        </div>
+        <div class="chat-messages" id="chat-messages">
+            <div class="message bot">
+                <img class="avatar" src="https://cdn-icons-png.flaticon.com/512/4712/4712035.png" alt="Mira">
+                <div class="bubble">Hi! 👋 I'm <b>Mira</b>, your assistant for Medha Tech Pvt Ltd. How can I help you
+                    today?</div>
+            </div>
+        </div>
+        <form class="chat-input" id="chat-form" autocomplete="off">
+            <input type="text" id="user-input" placeholder="Type your question..." required autofocus />
+            <button type="submit">Send</button>
+        </form>
+    </div>
+    <script>
+        const chatWidget = document.getElementById('chat-widget');
+        const closeChat = document.getElementById('close-chat');
+        const reloadChat = document.getElementById('reload-chat');
+        const chatMessages = document.getElementById('chat-messages');
+        const chatForm = document.getElementById('chat-form');
+        const userInput = document.getElementById('user-input');
+
+        // Always show chat widget, hide floating button
+        // Remove floating button logic entirely
+        closeChat.onclick = () => {
+            // If embedded in an iframe, notify parent to close the iframe
+            if (window.parent !== window) {
+                window.parent.postMessage({ type: 'bubby-close' }, '*');
+            } else {
+                chatWidget.style.display = 'none';
+            }
+        };
+        // Reload chat (clear messages)
+        reloadChat.onclick = () => {
+            chatMessages.innerHTML = '';
+            addMessage("Hi! 👋 I'm <b>Mira</b>, your assistant for Medha Tech Pvt Ltd. How can I help you today?", 'bot');
+        };
+
+        function addMessage(text, sender) {
+            const msgDiv = document.createElement('div');
+            msgDiv.className = 'message ' + sender;
+            if (sender === 'bot') {
+                const avatar = document.createElement('img');
+                avatar.className = 'avatar';
+                avatar.src = 'https://cdn-icons-png.flaticon.com/512/4712/4712035.png';
+                avatar.alt = 'Mira';
+                msgDiv.appendChild(avatar);
+            }
+            const bubble = document.createElement('div');
+            bubble.className = 'bubble';
+            if (sender === 'bot') {
+                bubble.innerHTML = marked.parse(text);
+            } else {
+                bubble.textContent = text;
+            }
+            msgDiv.appendChild(bubble);
+            chatMessages.appendChild(msgDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        chatForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const message = userInput.value.trim();
+            if (!message) return;
+            addMessage(message, 'user');
+            userInput.value = '';
+            addMessage('<span style="color:#888;">Mira is typing...</span>', 'bot');
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+            try {
+                const res = await fetch('/chat', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ message })
+                });
+                const data = await res.json();
+                // Remove the 'typing...' message
+                chatMessages.removeChild(chatMessages.lastChild);
+                if (data.reply) {
+                    addMessage(data.reply, 'bot');
+                } else {
+                    addMessage('Sorry, I could not get a response.', 'bot');
+                }
+            } catch (err) {
+                chatMessages.removeChild(chatMessages.lastChild);
+                addMessage('Sorry, there was an error connecting to the server.', 'bot');
+            }
+        });
+    </script>
+</body>
+
+</html>
