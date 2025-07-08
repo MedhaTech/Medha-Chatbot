@@ -3,10 +3,10 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Bubby Chatbot Widget Embed Demo</title>
+    <title>Mira Chatbot Widget Embed Demo</title>
     <style>
         body {
-            background: #f6f8fa;
+            background: #ffffff;
             font-family: 'Roboto', sans-serif;
             margin: 0;
             padding: 0;
@@ -15,8 +15,9 @@
 </head>
 
 <body>
-    <h1>Hellow</h1>
-    <!-- Bubby Chatbot Widget Embed Script -->
+    <center><h1>Mira ChatBot</h1></center>
+
+    <!-- Mira Chatbot Widget Embed Script -->
     <script>
         (function () {
             if (window.BubbyWidgetLoaded) return;
@@ -37,13 +38,13 @@
             fab.style.justifyContent = 'center';
             fab.style.cursor = 'pointer';
             fab.style.zIndex = '99999';
-            fab.title = 'Chat with Bubby';
+            fab.title = 'Chat with Mira';
 
             var img = document.createElement('img');
             img.src = 'https://cdn-icons-png.flaticon.com/512/4712/4712035.png';
             img.style.width = '36px';
             img.style.height = '36px';
-            img.alt = 'Chat with Bubby';
+            img.alt = 'Chat with Mira';
             fab.appendChild(img);
 
             // Create iframe (hidden by default)
@@ -82,7 +83,9 @@
 
             // Listen for close message from iframe
             window.addEventListener('message', function (event) {
+                console.log('Received message from iframe:', event.data);
                 if (event.data && event.data.type === 'bubby-close') {
+                    // Only hide the iframe if the close button was clicked in the chat UI
                     iframe.style.display = 'none';
                     fab.style.display = 'flex';
                 }
@@ -92,6 +95,7 @@
             document.body.appendChild(iframe);
         })();
     </script>
+    
 </body>
 
 </html>

@@ -17,8 +17,8 @@
         }
 
         body {
-            background: transparent;
-            font-family: 'Roboto', sans-serif;
+            background: #f6f8fa;
+            font-family: 'Inter', 'Roboto', sans-serif;
             margin: 0;
             padding: 0;
         }
@@ -51,13 +51,11 @@
         }
 
         .chat-widget {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            width: 100%;
-            height: 100%;
+            position: relative;
+            width: 370px;
+            height: 650px;
+            max-width: 100vw;
+            max-height: 100vh;
             background: #fff;
             border-radius: 18px;
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.18);
@@ -133,6 +131,7 @@
             display: flex;
             flex-direction: column;
             gap: 18px;
+            /* Only this area should scroll */
         }
 
         .message {
@@ -206,6 +205,7 @@
             padding: 18px 18px;
             background: #fff4f5;
             border-top: 1px solid #ffd3d6;
+            flex-shrink: 0;
         }
 
         .chat-input input {
@@ -298,13 +298,269 @@
             color: #F72534;
             text-decoration: underline;
         }
+
+        #support-btn {
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            width: 100%;
+            background: #F72534;
+            color: #fff;
+            border: none;
+            border-radius: 0 0 18px 18px;
+            padding: 16px 0;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background 0.2s;
+            z-index: 10;
+        }
+
+        #support-btn:hover {
+            background: #c81b28;
+        }
+
+        /* Support Modal Styles */
+        #support-modal {
+            display: none;
+            position: fixed;
+            left: 0; top: 0; right: 0; bottom: 0;
+            background: rgba(30, 34, 44, 0.13);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(2px);
+        }
+        #support-modal .modal-content {
+            background: #fff;
+            border-radius: 14px;
+            padding: 40px 32px 28px 32px;
+            padding-right: 36px;
+            padding-left: 18px;
+            max-width: 390px;
+            width: 95vw;
+            box-shadow: 0 8px 32px rgba(30,34,44,0.13);
+            margin: auto;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            gap: 0.7rem;
+            border: 1.2px solid #f3f3f3;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        #support-modal .close {
+            position: absolute;
+            right: 18px;
+            top: 12px;
+            font-size: 1.5rem;
+            color: #bbb;
+            cursor: pointer;
+            font-weight: 700;
+            background: none;
+            border: none;
+            outline: none;
+            transition: color 0.2s;
+        }
+        #support-modal .close:hover {
+            color: #F72534;
+        }
+        #support-modal h2 {
+            margin-bottom: 22px;
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #F72534;
+            text-align: center;
+            letter-spacing: 0.2px;
+        }
+        .support-field {
+            position: relative;
+            margin-bottom: 22px;
+        }
+        .support-field input,
+        .support-field select,
+        .support-field textarea {
+            width: 100%;
+            padding: 16px 12px 8px 12px;
+            border-radius: 7px;
+            border: 1.2px solid #d6d6d6;
+            font-size: 1.04rem;
+            background: #f9fafb;
+            transition: border 0.2s, box-shadow 0.2s;
+            outline: none;
+            font-family: inherit;
+        }
+        .support-field input:focus,
+        .support-field select:focus,
+        .support-field textarea:focus {
+            border: 1.2px solid #F72534;
+            background: #fff;
+            box-shadow: 0 2px 8px rgba(247,37,52,0.07);
+        }
+        .support-field label {
+            position: absolute;
+            left: 16px;
+            top: 14px;
+            color: #888;
+            font-size: 1.01rem;
+            background: transparent;
+            pointer-events: none;
+            transition: 0.2s;
+            font-weight: 500;
+            z-index: 2;
+        }
+        /* Only apply red color to floating label for input/textarea, not select */
+        .support-field input:focus + label,
+        .support-field input:not(:placeholder-shown) + label,
+        .support-field textarea:focus + label,
+        .support-field textarea:not(:placeholder-shown) + label {
+            top: -11px;
+            left: 10px;
+            font-size: 0.92rem;
+            color: #F72534;
+            background: #fff;
+            padding: 0 4px;
+            border-radius: 4px;
+            font-weight: 600;
+        }
+        .support-field select:focus + label,
+        .support-field select:not([value=""]) + label {
+            top: -11px;
+            left: 10px;
+            font-size: 0.92rem;
+            color: #888;
+            background: #fff;
+            padding: 0 4px;
+            border-radius: 4px;
+            font-weight: 600;
+        }
+        #support-modal textarea {
+            min-height: 80px;
+            resize: vertical;
+        }
+        #support-modal button[type=submit] {
+            background: linear-gradient(90deg, #F72534 80%, #ff4a5a 100%);
+            color: #fff;
+            border: none;
+            border-radius: 999px;
+            padding: 15px 0;
+            font-size: 1.12rem;
+            font-weight: 700;
+            margin-top: 8px;
+            cursor: pointer;
+            width: 100%;
+            box-shadow: 0 2px 8px rgba(247,37,52,0.08);
+            letter-spacing: 0.3px;
+            transition: background 0.2s, box-shadow 0.2s;
+        }
+        #support-modal button[type=submit]:hover {
+            background: #c81b28;
+            box-shadow: 0 4px 16px rgba(247,37,52,0.13);
+        }
+        #support-modal .success, #support-modal .error {
+            margin-top: 12px;
+            font-weight: 600;
+            text-align: center;
+            font-size: 1.04rem;
+        }
+        #support-modal .success { color: #1cae4e; }
+        #support-modal .error { color: #F72534; }
+
+        #support-fab {
+            position: absolute;
+            bottom: 80px;
+            right: 24px;
+            width: 56px;
+            height: 56px;
+            background: #F72534;
+            color: #fff;
+            border: none;
+            border-radius: 50%;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.18);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 1003;
+            font-size: 2rem;
+            transition: background 0.2s;
+        }
+
+        #support-fab:hover {
+            background: #c81b28;
+        }
+
+        #support-fab[title]::after {
+            content: attr(title);
+            position: absolute;
+            bottom: 70px;
+            right: 0;
+            background: #222;
+            color: #fff;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 0.95rem;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.2s;
+            white-space: nowrap;
+        }
+
+        #support-fab:hover[title]::after {
+            opacity: 1;
+        }
+        html, body {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            background: transparent;
+            font-family: 'Inter', 'Roboto', sans-serif;
+            overflow: hidden !important;
+        }
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100vw;
+            height: 100vh;
+            min-height: 100vh;
+            min-width: 100vw;
+            background: transparent;
+        }
+        /* In the category select field, ensure no autofocus and default option is selected */
+        .support-field select {
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            background: #f9fafb url('data:image/svg+xml;utf8,<svg fill="%23bbb" height="20" viewBox="0 0 24 24" width="20" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>') no-repeat right 12px center/18px 18px;
+            padding-right: 38px;
+            border: 1.2px solid #d6d6d6;
+            color: #323232;
+            cursor: pointer;
+            transition: border 0.2s, box-shadow 0.2s;
+            width: 108%;
+            box-sizing: border-box;
+            font-size: 1.04rem;
+            padding: 16px 12px 8px 12px;
+        }
+        .support-field select:focus {
+            border: 1.2px solid #F72534;
+            background-color: #fff;
+            box-shadow: 0 2px 8px rgba(247,37,52,0.07);
+        }
+        .support-field input[type='file']:focus + label,
+        .support-field input[type='file'] + label {
+            color: #888;
+        }
     </style>
 </head>
 
 <body>
     <!-- Floating Chat Button -->
     <!-- Chat Widget Popup -->
-    <div class="chat-widget" id="chat-widget" style="display:flex;">
+    <div class="chat-widget" id="chat-widget" style="display:flex; position:relative;">
         <div class="chat-header">
             <img src="https://cdn-icons-png.flaticon.com/512/4712/4712035.png" alt="Mira bot icon">
             Mira
@@ -324,6 +580,52 @@
             <input type="text" id="user-input" placeholder="Type your question..." required autofocus />
             <button type="submit">Send</button>
         </form>
+        <button id="support-fab" title="Contact Support Team" aria-label="Contact Support Team" style="z-index:1003;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="none" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2C6.48 2 2 6.48 2 12v5a3 3 0 0 0 3 3h2a1 1 0 0 0 1-1v-5a1 1 0 0 0-1-1H5.08A7.003 7.003 0 0 1 12 4a7.003 7.003 0 0 1 6.92 6H17a1 1 0 0 0-1 1v5a1 1 0 0 0 1 1h2a3 3 0 0 0 3-3v-5C22 6.48 17.52 2 12 2Zm-1 14v2h2v-2h-2Z"/></svg>
+        </button>
+    </div>
+    <div id="support-modal">
+        <div class="modal-content">
+            <span class="close" id="close-support-modal">&times;</span>
+            <form id="support-form" enctype="multipart/form-data">
+                <h2 style="padding-left: 30px; margin-top: -10px;" >Contact Support Team</h2>
+                <br>
+                <div class="support-field">
+                    <input type="text" id="support-name" name="name" required placeholder=" " autocomplete="off">
+                    <label for="support-name">Name*</label>
+                </div>
+                <div class="support-field">
+                    <input type="email" id="support-email" name="email" required placeholder=" " autocomplete="off">
+                    <label for="support-email">Email*</label>
+                </div>
+                <div class="support-field">
+                    <input type="tel" id="support-phone" name="phone" required placeholder=" " autocomplete="off">
+                    <label for="support-phone">Phone*</label>
+                </div>
+                <div class="support-field">
+                    <select id="support-category" name="category" placeholder=" ">
+                        <option value="" selected>-- Select Category (optional) --</option>
+                        <option>General</option>
+                        <option>Technical</option>
+                        <option>Billing</option>
+                        <option>Feedback</option>
+                        <option>Other</option>
+                    </select>
+                    <label for="support-category">Category</label>
+                </div>
+                <div class="support-field">
+                    <textarea id="support-desc" name="description" rows="3" required placeholder=" " autocomplete="off"></textarea>
+                    <label for="support-desc">Query Description*</label>
+                </div>
+                <div class="support-field">
+                    <input type="file" id="support-file" name="file" accept=".pdf,.png,.jpg,.jpeg,.gif,.txt,.doc,.docx">
+                    <label for="support-file">Attach File (optional)</label>
+                </div>
+                <button type="submit">Submit Query</button>
+                <div class="success" style="display:none;"></div>
+                <div class="error" style="display:none;"></div>
+            </form>
+        </div>
     </div>
     <script>
         const chatWidget = document.getElementById('chat-widget');
@@ -333,17 +635,16 @@
         const chatForm = document.getElementById('chat-form');
         const userInput = document.getElementById('user-input');
 
-        // Always show chat widget, hide floating button
         // Remove floating button logic entirely
         closeChat.onclick = () => {
-            // If embedded in an iframe, notify parent to close the iframe
+            //  notify parent to close the iframe
             if (window.parent !== window) {
                 window.parent.postMessage({ type: 'bubby-close' }, '*');
             } else {
                 chatWidget.style.display = 'none';
             }
         };
-        // Reload chat (clear messages)
+        // Reload chat 
         reloadChat.onclick = () => {
             chatMessages.innerHTML = '';
             addMessage("Hi! 👋 I'm <b>Mira</b>, your assistant for Medha Tech Pvt Ltd. How can I help you today?", 'bot');
@@ -379,25 +680,152 @@
             userInput.value = '';
             addMessage('<span style="color:#888;">Mira is typing...</span>', 'bot');
             chatMessages.scrollTop = chatMessages.scrollHeight;
+            let typingMessageRemoved = false;
+            let botReplyAdded = false;
             try {
                 const res = await fetch('/chat', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ message })
                 });
-                const data = await res.json();
-                // Remove the 'typing...' message
-                chatMessages.removeChild(chatMessages.lastChild);
-                if (data.reply) {
-                    addMessage(data.reply, 'bot');
+                let data;
+                try {
+                    data = await res.json();
+                } catch (jsonErr) {
+                    if (!typingMessageRemoved) {
+                        chatMessages.removeChild(chatMessages.lastChild);
+                        typingMessageRemoved = true;
+                    }
+                    // Do not show any error message
+                    return;
+                }
+                if (!typingMessageRemoved) {
+                    chatMessages.removeChild(chatMessages.lastChild);
+                    typingMessageRemoved = true;
+                }
+                let reply = (data.reply || '').trim();
+                if (reply) {
+                    if (!botReplyAdded) {
+                        addMessage(reply, 'bot');
+                        botReplyAdded = true;
+                    }
                 } else {
-                    addMessage('Sorry, I could not get a response.', 'bot');
+                    if (!botReplyAdded) {
+                        addMessage('Sorry, I could not get a response.', 'bot');
+                        botReplyAdded = true;
+                    }
                 }
             } catch (err) {
-                chatMessages.removeChild(chatMessages.lastChild);
-                addMessage('Sorry, there was an error connecting to the server.', 'bot');
+                if (!typingMessageRemoved) {
+                    chatMessages.removeChild(chatMessages.lastChild);
+                    typingMessageRemoved = true;
+                }
+                // Do not show any error message
+                return;
             }
         });
+
+        const supportFab = document.getElementById('support-fab');
+        const supportModal = document.getElementById('support-modal');
+        const closeSupportModal = document.getElementById('close-support-modal');
+        const supportForm = document.getElementById('support-form');
+        const successMsg = supportForm.querySelector('.success');
+        const errorMsg = supportForm.querySelector('.error');
+
+        function showSupportModal() {
+            supportModal.style.display = 'flex';
+        }
+        function hideSupportModal() {
+            supportModal.style.display = 'none';
+            supportForm.reset();
+            successMsg.style.display = 'none';
+            errorMsg.style.display = 'none';
+            // Restore all form fields and submit button
+            Array.from(supportForm.children).forEach(child => {
+                child.style.display = '';
+            });
+            // Restore default success message content
+            successMsg.innerHTML = '';
+        }
+        supportFab.onclick = showSupportModal;
+        closeSupportModal.onclick = hideSupportModal;
+        // Only allow modal to close via close button or after timeout if a success message is showing
+        window.onclick = function (event) {
+            if (event.target === supportModal) {
+                // Only close if not showing success message
+                if (!successMsg.style.display || successMsg.style.display === 'none') {
+                    hideSupportModal();
+                }
+            }
+        };
+
+        // Detect support/contact/help topics in messages
+        const supportKeywords = [
+            'support', 'contact', 'help', 'issue', 'problem', 'query', 'customer care', 'customer support', 'technical support', 'reach you', 'call you', 'email you', 'complaint', 'feedback'
+        ];
+        function checkSupportIntent(text) {
+            if (!text) return false;
+            text = text.toLowerCase();
+            return supportKeywords.some(k => text.includes(k));
+        }
+
+        // Show button if last user or bot message is support-related
+        function maybeShowSupportBtn(text) {
+            if (checkSupportIntent(text)) showSupportBtn();
+        }
+
+        // Hook into addMessage to check for support intent
+        const origAddMessage = addMessage;
+        addMessage = function (text, sender) {
+            origAddMessage.apply(this, arguments);
+            if (sender === 'bot' || sender === 'user') maybeShowSupportBtn(text);
+        };
+
+        // Also check on chat reload
+        reloadChat.onclick = () => {
+            chatMessages.innerHTML = '';
+            addMessage("Hi! 👋 I'm <b>Mira</b>, your assistant for Medha Tech Pvt Ltd. How can I help you today?", 'bot');
+            // hideSupportBtn(); // This line is removed as per the edit hint
+        };
+
+        // Support form submission
+        supportForm.onsubmit = async function(e) {
+            e.preventDefault();
+            successMsg.style.display = 'none';
+            errorMsg.style.display = 'none';
+            const formData = new FormData(supportForm);
+            try {
+                const res = await fetch('/submit_query', {
+                    method: 'POST',
+                    body: formData
+                });
+                const data = await res.json();
+                if (data.success) {
+                    // Hide all form fields and submit button
+                    Array.from(supportForm.children).forEach(child => {
+                        if (!child.classList.contains('success') && !child.classList.contains('error')) {
+                            child.style.display = 'none';
+                        }
+                    });
+                    successMsg.innerHTML = '<div style="display:flex;flex-direction:column;align-items:center;gap:12px;padding:24px 0 10px 0;">'
+                        + '<svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="12" fill="#1cae4e"/><path d="M7 13.5L11 17L17 9.5" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>'
+                        + '<span style="font-size:1.13rem;font-weight:700;color:#222;text-align:center;">Your query has been submitted.<br>Our support team will contact you soon!</span>'
+                        + '</div>';
+                    successMsg.style.display = 'block';
+                    errorMsg.style.display = 'none';
+                    // Wait 3 seconds, then close modal and reset form (do NOT close iframe)
+                    setTimeout(() => {
+                        hideSupportModal();
+                    }, 3000);
+                } else {
+                    errorMsg.textContent = data.message || 'Submission failed.';
+                    errorMsg.style.display = 'block';
+                }
+            } catch (err) {
+                errorMsg.textContent = 'There was an error submitting your query.';
+                errorMsg.style.display = 'block';
+            }
+        };
     </script>
 </body>
 
