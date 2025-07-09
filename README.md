@@ -72,4 +72,35 @@ For licensing, support, or custom integration inquiries, please contact the Medh
 
 **Mira – Your Trusted AI Assistant for Medha Tech**
 
+## API Endpoints
+
+### /update_progress
+
+Update the progress status of a support query.
+
+- **Method:** POST
+- **URL:** `/update_progress`
+- **Headers:** `Content-Type: application/json`
+- **Request Body:**
+  ```json
+  {
+    "id": 1,
+    "progress": "Resolved"
+  }
+  ```
+  - `id`: The ID of the support query to update.
+  - `progress`: The new status. Allowed values: `"Open"`, `"In Progress"`, `"Resolved"`, `"Closed"`.
+
+- **Response:**
+  - Success:
+    ```json
+    { "success": true, "message": "Progress updated." }
+    ```
+  - Failure (e.g., missing or invalid data):
+    ```json
+    { "success": false, "message": "Missing or invalid id/progress" }
+    ```
+
+
+
 

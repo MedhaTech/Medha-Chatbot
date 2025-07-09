@@ -49,6 +49,7 @@ def init_db():
             category TEXT,
             description TEXT NOT NULL,
             file_path TEXT,
+            progress TEXT DEFAULT 'Open',
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         )''')
         db.commit()
@@ -102,15 +103,16 @@ def submit_query():
     category = request.form.get('category')
     description = request.form.get('description')
     file = request.files.get('file')
+    progress = request.form.get('progress', 'Open')
     file_path = None
     if file and allowed_file(file.filename):
         filename = secure_filename(file.filename)
         file_path = os.path.join(UPLOAD_FOLDER, filename)
         file.save(file_path)
     db = get_db()
-    db.execute('''INSERT INTO support_queries (name, email, phone, category, description, file_path)
-                  VALUES (?, ?, ?, ?, ?, ?)''',
-               (name, email, phone, category, description, file_path))
+    db.execute('''INSERT INTO support_queries (name, email, phone, category, description, file_path, progress)
+                  VALUES (?, ?, ?, ?, ?, ?, ?)''',
+               (name, email, phone, category, description, file_path, progress))
     db.commit()
     return jsonify({'success': True, 'message': 'Query submitted successfully.'})
 
@@ -124,6 +126,20 @@ def get_queries():
             q['file_url'] = '/uploads/' + os.path.basename(q['file_path'])
     return jsonify(queries)
 
+# Endpoint to update progress field
+@app.route('/update_progress', methods=['POST'])
+def update_progress():
+    data = request.json
+    query_id = data.get('id')
+    new_progress = data.get('progress')
+    allowed = ['Open', 'In Progress', 'Resolved', 'Closed']
+    if not query_id or not new_progress or new_progress not in allowed:
+        return jsonify({'success': False, 'message': 'Missing or invalid id/progress'}), 400
+    db = get_db()
+    db.execute('UPDATE support_queries SET progress = ? WHERE id = ?', (new_progress, query_id))
+    db.commit()
+    return jsonify({'success': True, 'message': 'Progress updated.'})
+
 @app.route('/uploads/<filename>')
 def uploaded_file(filename):
     return send_from_directory(UPLOAD_FOLDER, filename)
@@ -135,4 +151,3 @@ def send_static(path):
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=5001)
-    
