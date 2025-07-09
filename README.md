@@ -101,6 +101,27 @@ Update the progress status of a support query.
     { "success": false, "message": "Missing or invalid id/progress" }
     ```
 
+## Environment Variables (.env)
+
+Create a `.env` file in the project root with the following variables:
+
+```
+SMTP_SERVER=smtp.example.com
+SMTP_PORT=587
+SMTP_USERNAME=your_smtp_username
+SMTP_PASSWORD=your_smtp_password
+SUPPORT_EMAIL=support@medhatech.in
+MIRA_EMAIL=mira@medhatech.in
+GEMINI_API_KEY=your_gemini_api_key
+```
+
+- `SMTP_SERVER`, `SMTP_PORT`, `SMTP_USERNAME`, `SMTP_PASSWORD`: Used for sending support emails from the chatbot.
+- `SUPPORT_EMAIL`: The email address shown as the support contact (default is `support@medhatech.in` if not set).
+- `MIRA_EMAIL`: The email address used by Mira for outgoing messages (default is `mira@medhatech.in` if not set).
+- `GEMINI_API_KEY`: Your Google Gemini API key (required).
+
+**Note:** All variables are loaded automatically from the `.env` file at startup. Never commit your `.env` file to version control.
+
 
 
 
