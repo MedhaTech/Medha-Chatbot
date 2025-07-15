@@ -8,8 +8,15 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <style>
+        :root {
+            --primary-color: #F72534;
+            --secondary-color: #ff4a5a;
+            --secondary-bg: #f6d6db; /* Slightly darker for less white tint */
+            --bot-bubble-bg: #ffe3e6;
+            --bot-bubble-border: #fbb3b9;
+        }
         html {
-            background: #F72534;
+            background: var(--primary-color);
             margin: 0;
             padding: 0;
             height: 100%;
@@ -30,7 +37,7 @@
             right: 32px;
             width: 64px;
             height: 64px;
-            background: #F72534;
+            background: var(--primary-color);
             border-radius: 50%;
             box-shadow: 0 4px 16px rgba(0, 0, 0, 0.18);
             display: flex;
@@ -42,7 +49,7 @@
         }
 
         .chat-fab:hover {
-            background: #ff4a5a;
+            background: var(--secondary-color);
         }
 
         .chat-fab img {
@@ -82,7 +89,7 @@
         }
 
         .chat-header {
-            background: #F72534;
+            background: var(--primary-color);
             color: #fff;
             padding: 18px 18px 14px 18px;
             font-size: 1.2rem;
@@ -127,7 +134,7 @@
             flex: 1;
             padding: 24px 8px;
             overflow-y: auto;
-            background: #fff0f1;
+            background: var(--secondary-bg);
             display: flex;
             flex-direction: column;
             gap: 18px;
@@ -149,7 +156,7 @@
         }
 
         .message.user .bubble {
-            background: linear-gradient(135deg, #F72534 60%, #ff4a5a 100%);
+            background: var(--primary-color); /* Solid color, no gradient */
             color: #fff;
             border-radius: 18px 4px 18px 18px;
             margin-left: 80px;
@@ -157,12 +164,12 @@
             text-align: right;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
             align-self: flex-end;
-            border: 1px solid #F72534;
+            border: 1px solid var(--primary-color);
             max-width: 80%;
         }
 
         .message.bot .bubble {
-            background: #ffe3e6;
+            background: var(--bot-bubble-bg);
             color: #222;
             border-radius: 4px 18px 18px 18px;
             margin-right: 80px;
@@ -170,7 +177,7 @@
             text-align: left;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
             align-self: flex-start;
-            border: 1px solid #fbb3b9;
+            border: 1px solid var(--bot-bubble-border);
             max-width: 80%;
         }
 
@@ -203,8 +210,8 @@
         .chat-input {
             display: flex;
             padding: 18px 18px;
-            background: #fff4f5;
-            border-top: 1px solid #ffd3d6;
+            background: color-mix(in srgb, var(--primary-color) 7%, #fff 93%);
+            border-top: 1px solid var(--primary-color);
             flex-shrink: 0;
         }
 
@@ -222,7 +229,7 @@
         .chat-input button {
             margin-left: 12px;
             padding: 12px 22px;
-            background: #F72534;
+            background: var(--primary-color);
             color: #fff;
             border: none;
             border-radius: 12px;
@@ -295,7 +302,7 @@
         }
 
         .bubble a {
-            color: #F72534;
+            color: var(--primary-color);
             text-decoration: underline;
         }
 
@@ -305,7 +312,7 @@
             right: 0;
             bottom: 0;
             width: 100%;
-            background: #F72534;
+            background: var(--primary-color);
             color: #fff;
             border: none;
             border-radius: 0 0 18px 18px;
@@ -318,7 +325,7 @@
         }
 
         #support-btn:hover {
-            background: #c81b28;
+            background: var(--primary-color);
         }
 
         /* Support Modal Styles */
@@ -362,13 +369,13 @@
             transition: color 0.2s;
         }
         #support-modal .close:hover {
-            color: #F72534;
+            color: var(--primary-color);
         }
         #support-modal h2 {
             margin-bottom: 12px;
             font-size: 1.05rem;
             font-weight: 700;
-            color: #F72534;
+            color: var(--primary-color);
             text-align: center;
             letter-spacing: 0.2px;
         }
@@ -394,7 +401,7 @@
         .support-field input:focus,
         .support-field select:focus,
         .support-field textarea:focus {
-            border: 1.2px solid #F72534;
+            border: 1.2px solid var(--primary-color);
             background: #fff;
             box-shadow: 0 2px 8px rgba(247,37,52,0.07);
         }
@@ -418,7 +425,7 @@
             top: -11px;
             left: 10px;
             font-size: 0.92rem;
-            color: #F72534;
+            color: var(--primary-color);
             background: #fff;
             padding: 0 4px;
             border-radius: 4px;
@@ -440,7 +447,7 @@
             resize: vertical;
         }
         #support-modal button[type=submit] {
-            background: linear-gradient(90deg, #F72534 80%, #ff4a5a 100%);
+            background: var(--primary-color); /* Solid color, no gradient */
             color: #fff;
             border: none;
             border-radius: 999px;
@@ -455,8 +462,8 @@
             transition: background 0.2s, box-shadow 0.2s;
         }
         #support-modal button[type=submit]:hover {
-            background: #c81b28;
-            box-shadow: 0 4px 16px rgba(247,37,52,0.13);
+            background: var(--primary-color);
+            box-shadow: 0 4px 16px color-mix(in srgb, var(--primary-color) 30%, transparent 70%);
         }
         #support-modal .success, #support-modal .error {
             margin-top: 8px;
@@ -465,7 +472,7 @@
             font-size: 0.97rem;
         }
         #support-modal .success { color: #1cae4e; }
-        #support-modal .error { color: #F72534; }
+        #support-modal .error { color: var(--primary-color); }
 
         #support-fab {
             position: absolute;
@@ -473,7 +480,7 @@
             right: 24px;
             width: 56px;
             height: 56px;
-            background: #F72534;
+            background: var(--primary-color);
             color: #fff;
             border: none;
             border-radius: 50%;
@@ -488,7 +495,7 @@
         }
 
         #support-fab:hover {
-            background: #c81b28;
+            /* background: #c81b28; */
         }
 
         #support-fab[title]::after {
@@ -546,7 +553,7 @@
             padding: 16px 12px 8px 12px;
         }
         .support-field select:focus {
-            border: 1.2px solid #F72534;
+            border: 1.2px solid var(--primary-color);
             background-color: #fff;
             box-shadow: 0 2px 8px rgba(247,37,52,0.07);
         }
@@ -563,7 +570,7 @@
     <div class="chat-widget" id="chat-widget" style="display:flex; position:relative;">
         <div class="chat-header">
             <img src="https://cdn-icons-png.flaticon.com/512/4712/4712035.png" alt="Mira bot icon">
-            Mira
+            <span id="bot-name">...</span>
             <div class="chat-actions">
                 <button id="reload-chat" title="Reload chat">&#x21bb;</button>
                 <button id="close-chat" title="Close">&#x2715;</button>
@@ -572,8 +579,7 @@
         <div class="chat-messages" id="chat-messages">
             <div class="message bot">
                 <img class="avatar" src="https://cdn-icons-png.flaticon.com/512/4712/4712035.png" alt="Mira">
-                <div class="bubble">Hi! 👋 I'm <b>Mira</b>, your assistant for Medha Tech Pvt Ltd. How can I help you
-                    today?</div>
+                <div class="bubble" id="initial-greeting"></div>
             </div>
         </div>
         <form class="chat-input" id="chat-form" autocomplete="off">
@@ -648,7 +654,7 @@
         // Reload chat 
         reloadChat.onclick = () => {
             chatMessages.innerHTML = '';
-            addMessage("Hi! 👋 I'm <b>Mira</b>, your assistant for Medha Tech Pvt Ltd. How can I help you today?", 'bot');
+            addMessage(`Hi! I am <b>${document.getElementById('bot-name').textContent}</b>, I'm here to help you.`, 'bot');
         };
 
         function addMessage(text, sender) {
@@ -657,8 +663,8 @@
             if (sender === 'bot') {
                 const avatar = document.createElement('img');
                 avatar.className = 'avatar';
-                avatar.src = 'https://cdn-icons-png.flaticon.com/512/4712/4712035.png';
-                avatar.alt = 'Mira';
+                avatar.src = window.currentBotLogo || 'https://cdn-icons-png.flaticon.com/512/4712/4712035.png';
+                avatar.alt = document.getElementById('bot-name').textContent || 'Bot';
                 msgDiv.appendChild(avatar);
             }
             const bubble = document.createElement('div');
@@ -673,13 +679,73 @@
             chatMessages.scrollTop = chatMessages.scrollHeight;
         }
 
+        // Get bot_id from URL
+        function getBotId() {
+            const params = new URLSearchParams(window.location.search);
+            return params.get('bot_id') || '';
+        }
+        const bot_id = getBotId();
+
+        // Fetch bot data from PHP API and update UI
+        async function updateBotHeader() {
+            if (!bot_id) return;
+            try {
+                const apiBase = 'http://localhost/Mira/';
+                const res = await fetch(apiBase + 'api/get_bot_data.php?bot_id=' + bot_id);
+                const bot = await res.json();
+                if (bot && !bot.error) {
+                    // Set CSS variables for colors
+                    document.documentElement.style.setProperty('--primary-color', bot.primary_color || '#F72534');
+                    document.documentElement.style.setProperty('--secondary-color', bot.secondary_color || '#ff4a5a');
+                    document.documentElement.style.setProperty('--secondary-bg', bot.secondary_color || '#fff0f1');
+                    // Optionally, set bot bubble bg/border to a lighter version of secondary
+                    document.documentElement.style.setProperty('--bot-bubble-bg', '#fff');
+                    document.documentElement.style.setProperty('--bot-bubble-border', bot.secondary_color || '#ff4a5a');
+                    // Update header name
+                    document.getElementById('bot-name').textContent = bot.name;
+                    // Dynamically construct logo URL
+                    let logoUrl = bot.logo || 'https://cdn-icons-png.flaticon.com/512/4712/4712035.png';
+                    if (logoUrl && !logoUrl.startsWith('http')) {
+                        logoUrl = apiBase + logoUrl.replace(/^\/+/, '');
+                    }
+                    // Update logo in header
+                    document.querySelector('.chat-header img').src = logoUrl;
+                    // Store bot logo globally for use in chat messages
+                    window.currentBotLogo = logoUrl;
+                    // Set initial greeting
+                    document.getElementById('initial-greeting').innerHTML = `Hi! I am <b>${bot.name}</b>, I'm here to help you.`;
+                    // Update the initial bot message avatar in the DOM
+                    const initialBotAvatar = document.querySelector('#chat-messages .message.bot .avatar');
+                    if (initialBotAvatar) {
+                        initialBotAvatar.src = logoUrl;
+                        initialBotAvatar.alt = bot.name;
+                    }
+                } else {
+                    // Bot not found: show error and disable chat
+                    document.querySelector('.chat-header').innerHTML = '<span style="color:#fff;font-size:1.1rem;">Bot not found</span>';
+                    document.getElementById('chat-messages').innerHTML = '<div class="message bot"><div class="bubble">Sorry, this bot does not exist.</div></div>';
+                    document.getElementById('user-input').disabled = true;
+                    document.querySelector('.chat-input button').disabled = true;
+                    document.querySelector('.chat-input button').style.background = '#ccc';
+                }
+            } catch (e) {
+                // API/network error: show error and disable chat
+                document.querySelector('.chat-header').innerHTML = '<span style="color:#fff;font-size:1.1rem;">Bot not found</span>';
+                document.getElementById('chat-messages').innerHTML = '<div class="message bot"><div class="bubble">Sorry, this bot does not exist.</div></div>';
+                document.getElementById('user-input').disabled = true;
+                document.querySelector('.chat-input button').disabled = true;
+                document.querySelector('.chat-input button').style.background = '#ccc';
+            }
+        }
+        updateBotHeader();
+
         chatForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             const message = userInput.value.trim();
             if (!message) return;
             addMessage(message, 'user');
             userInput.value = '';
-            addMessage('<span style="color:#888;">Mira is typing...</span>', 'bot');
+            addMessage(`<span style=\"color:#888;\">${document.getElementById('bot-name').textContent} is typing...</span>`, 'bot');
             chatMessages.scrollTop = chatMessages.scrollHeight;
             let typingMessageRemoved = false;
             let botReplyAdded = false;
@@ -687,7 +753,7 @@
                 const res = await fetch('/chat', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ message })
+                    body: JSON.stringify({ message, bot_id })
                 });
                 let data;
                 try {
@@ -785,8 +851,8 @@
         // Also check on chat reload
         reloadChat.onclick = () => {
             chatMessages.innerHTML = '';
-            addMessage("Hi! 👋 I'm <b>Mira</b>, your assistant for Medha Tech Pvt Ltd. How can I help you today?", 'bot');
-            // hideSupportBtn(); // This line is removed as per the edit hint
+            const greeting = `Hi! I am <b>${document.getElementById('bot-name').textContent}</b>, I'm here to help you.`;
+            document.getElementById('initial-greeting').innerHTML = greeting;
         };
 
         // Support form submission

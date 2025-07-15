@@ -1,0 +1,60 @@
+# Problem Statement: Single-Bot Limitation and Multi-Bot Solution for Medha Tech Chatbot
+
+## Background
+Currently, the Medha Tech chatbot system consists of a Flask (Python) backend that powers a single chatbot (Mira) with a fixed knowledge base (`data.txt`). The web interface is served via HTML/JS, and all chat logic is handled by the Flask app. There is no user authentication, dashboard, or support for multiple bots with different configurations.
+
+## The Problem
+- **Single Bot Only:** The current system only supports one chatbot instance (Mira) with a single, static knowledge base.
+- **No User Management:** There is no way for users to sign up, log in, or manage their own bots.
+- **No Customization:** All users interact with the same bot, logo, colors, and context. There is no way to customize the chatbot's appearance or knowledge base per user or per bot.
+- **Scalability Issues:** If we want to offer chatbots to multiple clients or allow users to create/manage their own bots, the current architecture does not support this. Copying the Flask app for each bot is not scalable or maintainable.
+
+## Requirements
+- Allow users to sign up, log in, and access a dashboard.
+- Enable users to create and manage multiple bots, each with its own:
+  - Name
+  - Logo
+  - Color scheme
+  - Knowledge base/context
+- Each bot should have a unique chat page or widget that uses its own configuration and knowledge base.
+- Support contact/support queries per bot, so support requests are linked to the correct bot.
+- The system should be maintainable, scalable, and easy to update.
+
+## Solution Overview
+### 1. PHP Web App for User & Bot Management
+- Build a PHP application for user authentication (login/signup) and dashboard.
+- Users can create, edit, and manage multiple bots from their dashboard.
+- Each bot's configuration (name, logo, colors, knowledge base) is stored in a database (e.g., MySQL or SQLite).
+- Each bot gets a unique URL (e.g., `/bot.php?bot_id=123`) for its chat page.
+
+### 2. Flask Backend for Multi-Bot Chat Logic
+- Update the Flask app to support multiple bots:
+  - The `/chat` endpoint accepts a `bot_id` parameter along with the user message.
+  - Flask loads the correct knowledge base/context for the given `bot_id` (from a database or file).
+  - Flask generates a reply using the correct context and returns it to the chat widget.
+- (Optional) Add endpoints to fetch bot-specific settings if needed.
+
+### 3. Chat Widget Integration
+- The chat widget on each bot's page sends both the user message and the `bot_id` to the Flask backend.
+- The chat UI (logo, colors) is customized per bot using PHP to inject the correct settings into the HTML/CSS/JS.
+
+### 4. Contact/Support Queries
+- The support/contact form in the chat widget includes the `bot_id` as a hidden field.
+- When a support request is submitted, Flask saves the request with the associated `bot_id` and notifies the support team, so they know which bot/user the request is for.
+
+## Why Not Just Copy the Bot for Each User?
+- Copying the Flask app for each bot is not scalable, hard to maintain, and wastes server resources.
+- A single, multi-bot Flask backend is easier to update, maintain, and scale.
+- This is the standard approach used by SaaS platforms and professional chatbot providers.
+
+## Summary Diagram
+
+User → PHP Dashboard (create/manage bots) → DB (bot configs)
+User/Visitor → Bot Chat Page (unique per bot) → Chat Widget (sends bot_id + message) → Flask Backend (loads correct context, replies)
+Support Form (includes bot_id) → Flask (saves/supports per bot)
+
+## Next Steps for Developers
+1. Implement the PHP dashboard and bot management system.
+2. Update the Flask backend to support multiple bots via `bot_id`.
+3. Update the chat widget to send `bot_id` with each message.
+4. Test the full flow by creating a bot, customizing it, and chatting with it via its unique page. 

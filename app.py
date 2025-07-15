@@ -91,18 +91,28 @@ def index():
 @app.route('/chat', methods=['POST'])
 def chat():
     user_message = request.json.get('message', '')
-    if not user_message:
-        return jsonify({'error': 'No message provided'}), 400
+    bot_id = request.json.get('bot_id', '')
+    if not user_message or not bot_id:
+        return jsonify({'error': 'No message or bot_id provided'}), 400
 
-    # Prepare prompt for Gemini
+    # Fetch bot data from PHP API
+    bot_api_url = f'http://localhost/Mira/api/get_bot_data.php?bot_id={bot_id}'
+    bot_resp = requests.get(bot_api_url)
+    bot_data = bot_resp.json()
+    if 'error' in bot_data:
+        return jsonify({'error': 'Bot not found'}), 404
+
+    context = bot_data['knowledge_base']
+    bot_name = bot_data['name']
+
     prompt = f"""
-You are Mira, a helpful assistant bot for Medha Tech Pvt Ltd. Answer the user's question based ONLY on the following context. If the answer is not in the context, politely say you don't know.
+You are {bot_name}, a helpful assistant bot. Answer the user's question based ONLY on the following context. If the answer is not in the context, politely say you don't know.
 
 Context:
-{DATA_CONTEXT}
+{context}
 
 User: {user_message}
-Mira:"""
+{bot_name}:"""
 
     payload = {
         "contents": [
