@@ -628,6 +628,9 @@
                     <input type="file" id="support-file" name="file" accept=".pdf,.png,.jpg,.jpeg,.gif,.txt,.doc,.docx">
                     <label for="support-file">Attach File (optional)</label>
                 </div>
+                <div class="support-field">
+                    <input type="hidden" id="support-bot-id" name="bot_id" value="">
+                </div>
                 <button type="submit">Submit Query</button>
                 <div class="success" style="display:none;"></div>
                 <div class="error" style="display:none;"></div>
@@ -720,6 +723,7 @@
                         initialBotAvatar.src = logoUrl;
                         initialBotAvatar.alt = bot.name;
                     }
+                    document.getElementById('support-bot-id').value = bot.bot_id || bot_id;
                 } else {
                     // Bot not found: show error and disable chat
                     document.querySelector('.chat-header').innerHTML = '<span style="color:#fff;font-size:1.1rem;">Bot not found</span>';
@@ -862,7 +866,7 @@
             errorMsg.style.display = 'none';
             const formData = new FormData(supportForm);
             try {
-                const res = await fetch('/submit_query', {
+                const res = await fetch('http://localhost/Mira/submit_query.php', {
                     method: 'POST',
                     body: formData
                 });
