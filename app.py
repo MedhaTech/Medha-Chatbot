@@ -96,7 +96,7 @@ def chat():
         return jsonify({'error': 'No message or bot_id provided'}), 400
 
     # Fetch bot data from PHP API
-    bot_api_url = f'http://localhost/Mira/api/get_bot_data.php?bot_id={bot_id}'
+    bot_api_url = f'https://medhatech.in/mira/api/get_bot_data.php?bot_id={bot_id}'
     bot_resp = requests.get(bot_api_url)
     bot_data = bot_resp.json()
     if 'error' in bot_data:
