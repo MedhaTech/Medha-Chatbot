@@ -131,6 +131,21 @@ User: {user_message}
         print("Error:", e)
         traceback.print_exc()
         bot_reply = "Sorry, I couldn't process your request."
+
+    # Log chat to PHP database
+    try:
+        log_url = 'http://localhost/Mira/log_chat.php'
+        session_id = request.json.get('session_id', '')
+        log_data = {
+            'bot_id': bot_id,
+            'session_id': session_id,
+            'user_message': user_message,
+            'bot_reply': bot_reply
+        }
+        requests.post(log_url, data=log_data, timeout=2)
+    except Exception as log_exc:
+        print('Failed to log chat:', log_exc)
+
     return jsonify({'reply': bot_reply})
 
 @app.route('/submit_query', methods=['POST'])

@@ -645,6 +645,17 @@
         const chatForm = document.getElementById('chat-form');
         const userInput = document.getElementById('user-input');
 
+        // Generate unique session ID for this conversation
+        let sessionId = 'session_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+
+        // Reset session when chat is reloaded
+        reloadChat.onclick = () => {
+            chatMessages.innerHTML = '';
+            addMessage(`Hi! I am <b>${document.getElementById('bot-name').textContent}</b>, I'm here to help you.`, 'bot');
+            // Generate new session ID for new conversation
+            sessionId = 'session_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+        };
+
         // Remove floating button logic entirely
         closeChat.onclick = () => {
             //  notify parent to close the iframe
@@ -653,11 +664,6 @@
             } else {
                 chatWidget.style.display = 'none';
             }
-        };
-        // Reload chat 
-        reloadChat.onclick = () => {
-            chatMessages.innerHTML = '';
-            addMessage(`Hi! I am <b>${document.getElementById('bot-name').textContent}</b>, I'm here to help you.`, 'bot');
         };
 
         function addMessage(text, sender) {
@@ -757,7 +763,7 @@
                 const res = await fetch('/chat', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ message, bot_id })
+                    body: JSON.stringify({ message, bot_id, session_id: sessionId })
                 });
                 let data;
                 try {
