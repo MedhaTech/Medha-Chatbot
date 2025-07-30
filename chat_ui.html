@@ -699,7 +699,7 @@
         async function updateBotHeader() {
             if (!bot_id) return;
             try {
-                const apiBase = 'http://localhost/Mira/';
+                const apiBase = 'https://medhatech.in/Mira/';
                 const res = await fetch(apiBase + 'api/get_bot_data.php?bot_id=' + bot_id);
                 const bot = await res.json();
                 if (bot && !bot.error) {
@@ -872,7 +872,7 @@
             errorMsg.style.display = 'none';
             const formData = new FormData(supportForm);
             try {
-                const res = await fetch('http://localhost/Mira/submit_query.php', {
+                const res = await fetch('https://medhatech.in/Mira/submit_query.php', {
                     method: 'POST',
                     body: formData
                 });
